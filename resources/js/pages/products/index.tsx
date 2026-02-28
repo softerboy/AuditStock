@@ -1,5 +1,16 @@
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useState } from 'react';
 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
@@ -32,10 +43,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Index({ products: allProducts, can, vat }: Props) {
     const { delete: destroy } = useForm();
+    const [productToDelete, setProductToDelete] = useState<number | null>(null);
 
-    const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this product?')) {
-            destroy(products.destroy(id));
+    const handleDelete = () => {
+        if (productToDelete) {
+            destroy(products.destroy(productToDelete));
+            setProductToDelete(null);
         }
     };
 
@@ -82,7 +95,10 @@ export default function Index({ products: allProducts, can, vat }: Props) {
                                             </Link>
                                         )}
                                         {can.delete && (
-                                            <button onClick={() => handleDelete(product.id)} className="text-red-600 hover:text-red-900 cursor-pointer">
+                                            <button
+                                                onClick={() => setProductToDelete(product.id)}
+                                                className="text-red-600 hover:text-red-900 cursor-pointer"
+                                            >
                                                 Delete
                                             </button>
                                         )}
@@ -93,6 +109,23 @@ export default function Index({ products: allProducts, can, vat }: Props) {
                     </Table>
                 </div>
             </div>
+
+            <AlertDialog open={productToDelete !== null} onOpenChange={(open) => !open && setProductToDelete(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure you want to delete this product?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the product and remove it from our servers.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete} variant="destructive">
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </AppLayout>
     );
 }

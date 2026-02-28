@@ -1,0 +1,20 @@
+{
+    "agents": [
+        "copilot",
+        "gemini",
+        "junie"
+    ],
+    "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "packages": [
+        "laravel/fortify"
+    ],
+    "sail": false,
+    "skills": [
+        "wayfinder-development",
+        "pest-testing",
+        "developing-with-fortify"
+    ]
+}

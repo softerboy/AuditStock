@@ -1,8 +1,10 @@
 import { Head, Link, useForm } from '@inertiajs/react';
+
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import products from '@/routes/products';
 import type { BreadcrumbItem } from '@/types';
-import { Button } from '@/components/ui/button';
 
 interface Product {
     id: number;
@@ -50,34 +52,40 @@ export default function Index({ products: allProducts, can }: Props) {
                 </div>
 
                 <div className="bg-white dark:bg-neutral-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
-                        <thead className="bg-neutral-50 dark:bg-neutral-900">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Title</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Quantity</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Price</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white dark:bg-neutral-800 divide-y divide-neutral-200 dark:divide-neutral-700">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Quantity</TableHead>
+                                <TableHead>Price</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {allProducts.map((product) => (
-                                <tr key={product.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">{product.title}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{product.quantity}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">${product.price}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <Link href={products.show(product.id)} className="text-indigo-600 hover:text-indigo-900 mr-4">View</Link>
+                                <TableRow key={product.id}>
+                                    <TableCell>{product.title}</TableCell>
+                                    <TableCell>{product.quantity}</TableCell>
+                                    <TableCell>${product.price}</TableCell>
+                                    <TableCell className="text-right text-sm font-medium">
+                                        <Link href={products.show(product.id)} className="text-indigo-600 hover:text-indigo-900 mr-4">
+                                            View
+                                        </Link>
                                         {can.update && (
-                                            <Link href={products.edit(product.id)} className="text-yellow-600 hover:text-yellow-900 mr-4">Edit</Link>
+                                            <Link href={products.edit(product.id)} className="text-yellow-600 hover:text-yellow-900 mr-4">
+                                                Edit
+                                            </Link>
                                         )}
                                         {can.delete && (
-                                            <button onClick={() => handleDelete(product.id)} className="text-red-600 hover:text-red-900">Delete</button>
+                                            <button onClick={() => handleDelete(product.id)} className="text-red-600 hover:text-red-900 cursor-pointer">
+                                                Delete
+                                            </button>
                                         )}
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         </AppLayout>

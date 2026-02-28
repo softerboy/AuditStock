@@ -37,7 +37,7 @@ interface Props {
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Products',
-        href: products.index(),
+        href: products.index().url,
     },
 ];
 
@@ -47,7 +47,7 @@ export default function Index({ products: allProducts, can, vat }: Props) {
 
     const handleDelete = () => {
         if (productToDelete) {
-            destroy(products.destroy(productToDelete));
+            destroy(products.destroy(productToDelete).url);
             setProductToDelete(null);
         }
     };
@@ -59,7 +59,7 @@ export default function Index({ products: allProducts, can, vat }: Props) {
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-semibold">Products</h1>
                     {can.create && (
-                        <Link href={products.create()}>
+                        <Link href={products.create().url}>
                             <Button>Add Product</Button>
                         </Link>
                     )}
@@ -86,11 +86,11 @@ export default function Index({ products: allProducts, can, vat }: Props) {
                                         ${(product.quantity * parseFloat(product.price) * (1 + vat)).toFixed(2)}
                                     </TableCell>
                                     <TableCell className="text-right text-sm font-medium">
-                                        <Link href={products.show(product.id)} className="text-indigo-600 hover:text-indigo-900 mr-4">
+                                        <Link href={products.show(product.id).url} className="text-indigo-600 hover:text-indigo-900 mr-4">
                                             View
                                         </Link>
                                         {can.update && (
-                                            <Link href={products.edit(product.id)} className="text-yellow-600 hover:text-yellow-900 mr-4">
+                                            <Link href={products.edit(product.id).url} className="text-yellow-600 hover:text-yellow-900 mr-4">
                                                 Edit
                                             </Link>
                                         )}

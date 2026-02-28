@@ -27,17 +27,17 @@ export default function Edit({ product }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Products',
-            href: products.index(),
+            href: products.index().url,
         },
         {
             title: 'Edit Product',
-            href: products.edit(product.id),
+            href: products.edit(product.id).url,
         },
     ];
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        put(products.update(product.id));
+        put(products.update(product.id).url);
     };
 
     return (
@@ -85,7 +85,7 @@ export default function Edit({ product }: Props) {
 
                     <div className="flex items-center gap-4">
                         <Button type="submit" disabled={processing}>Update Product</Button>
-                        <Link href={products.index()} className="text-sm text-neutral-600 dark:text-neutral-400 hover:underline">Cancel</Link>
+                        <Link href={products.index().url} className="text-sm text-neutral-600 dark:text-neutral-400 hover:underline">Cancel</Link>
                     </div>
                 </form>
             </div>

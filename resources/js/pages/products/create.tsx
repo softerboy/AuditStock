@@ -9,11 +9,11 @@ import type { BreadcrumbItem } from '@/types';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Products',
-        href: products.index(),
+        href: products.index().url,
     },
     {
         title: 'Create Product',
-        href: products.create(),
+        href: products.create().url,
     },
 ];
 
@@ -26,7 +26,7 @@ export default function Create() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(products.store());
+        post(products.store().url);
     };
 
     return (
@@ -74,7 +74,7 @@ export default function Create() {
 
                     <div className="flex items-center gap-4">
                         <Button type="submit" disabled={processing}>Create Product</Button>
-                        <Link href={products.index()} className="text-sm text-neutral-600 dark:text-neutral-400 hover:underline">Cancel</Link>
+                        <Link href={products.index().url} className="text-sm text-neutral-600 dark:text-neutral-400 hover:underline">Cancel</Link>
                     </div>
                 </form>
             </div>

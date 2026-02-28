@@ -15,6 +15,7 @@ interface Product {
 
 interface Props {
     products: Product[];
+    vat: number;
     can: {
         create: boolean;
         update: boolean;
@@ -29,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index({ products: allProducts, can }: Props) {
+export default function Index({ products: allProducts, can, vat }: Props) {
     const { delete: destroy } = useForm();
 
     const handleDelete = (id: number) => {
@@ -58,6 +59,7 @@ export default function Index({ products: allProducts, can }: Props) {
                                 <TableHead>Title</TableHead>
                                 <TableHead>Quantity</TableHead>
                                 <TableHead>Price</TableHead>
+                                <TableHead>Total price with VAT</TableHead>
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -67,6 +69,9 @@ export default function Index({ products: allProducts, can }: Props) {
                                     <TableCell>{product.title}</TableCell>
                                     <TableCell>{product.quantity}</TableCell>
                                     <TableCell>${product.price}</TableCell>
+                                    <TableCell>
+                                        ${(product.quantity * parseFloat(product.price) * (1 + vat)).toFixed(2)}
+                                    </TableCell>
                                     <TableCell className="text-right text-sm font-medium">
                                         <Link href={products.show(product.id)} className="text-indigo-600 hover:text-indigo-900 mr-4">
                                             View

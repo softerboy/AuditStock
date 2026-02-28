@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'vat' => (float) env('APP_VAT', 0.21),
+
 ];

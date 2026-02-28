@@ -68,8 +68,8 @@ A Laravel-based application for managing product inventory with audit logging an
 
 ## Default Accounts (Seeded)
 
-- **Admin User:** `admin@example.com` / `password`
-- **Standard User:** `test@example.com` / `password`
+- **Admin User:** `admin@mail.com` / `admin`
+- **Standard User:** `user@mail.com` / `user`
 
 ## Features
 

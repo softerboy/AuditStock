@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Services\ProductService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -13,6 +14,8 @@ class ProductController extends Controller
 {
     use AuthorizesRequests;
 
+    public function __construct(protected ProductService $productService) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +24,7 @@ class ProductController extends Controller
         $this->authorize('viewAny', Product::class);
 
         return Inertia::render('products/index', [
-            'products' => Product::all(),
+            'products' => $this->productService->getAllProducts(),
             'can' => [
                 'create' => auth()->user()->can('create', Product::class),
                 'update' => auth()->user()->can('update', [Product::class, new Product]),
@@ -47,7 +50,7 @@ class ProductController extends Controller
     {
         $this->authorize('create', Product::class);
 
-        Product::create($request->validated());
+        $this->productService->createProduct($request->validated());
 
         return redirect()->route('products.index');
     }
@@ -83,7 +86,7 @@ class ProductController extends Controller
     {
         $this->authorize('update', $product);
 
-        $product->update($request->validated());
+        $this->productService->updateProduct($product, $request->validated());
 
         return redirect()->route('products.index');
     }
@@ -95,7 +98,7 @@ class ProductController extends Controller
     {
         $this->authorize('delete', $product);
 
-        $product->delete();
+        $this->productService->deleteProduct($product);
 
         return redirect()->route('products.index');
     }

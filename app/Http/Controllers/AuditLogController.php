@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Services\AuditLogService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -12,6 +13,8 @@ class AuditLogController extends Controller
 {
     use AuthorizesRequests;
 
+    public function __construct(protected AuditLogService $auditLogService) {}
+
     /**
      * Display a listing of the audit logs.
      */
@@ -19,18 +22,8 @@ class AuditLogController extends Controller
     {
         $this->authorize('viewAny', AuditLog::class);
 
-        $query = AuditLog::with('user')->latest();
-
-        if ($request->filled('from')) {
-            $query->whereDate('created_at', '>=', $request->from);
-        }
-
-        if ($request->filled('to')) {
-            $query->whereDate('created_at', '<=', $request->to);
-        }
-
         return Inertia::render('audit/index', [
-            'logs' => $query->paginate(20)->withQueryString(),
+            'logs' => $this->auditLogService->getPaginatedLogs($request->all()),
             'filters' => $request->only(['from', 'to']),
         ]);
     }

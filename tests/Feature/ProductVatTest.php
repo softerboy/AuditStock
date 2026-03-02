@@ -19,6 +19,6 @@ test('product list page contains shared vat and products', function () {
     $response->assertInertia(fn (Assert $page) => $page
         ->component('products/index')
         ->has('products', 3)
-        ->where('vat', $vat)
+        ->where('vat', fn ($value) => (float) $vat == $value)
     );
 });

@@ -3,15 +3,10 @@
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 
-Route::inertia('/', 'welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::redirect('/', '/products')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
-
     Route::resource('products', ProductController::class);
     Route::get('audit', [AuditLogController::class, 'index'])->name('audit.index');
 });

@@ -1,7 +1,7 @@
 <?php
 
-test('returns a successful response', function () {
+test('it redirects root to products', function () {
     $response = $this->get(route('home'));
 
-    $response->assertOk();
+    $response->assertRedirect('/products');
 });
